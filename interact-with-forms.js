@@ -13,10 +13,12 @@ const puppeteer = require('puppeteer');
 
 	const $input = await page.$('input');
 	await $input.type('dogs');
-	await $input.press('Enter');
 
 	// on submit of a form on hacker news, the page reloads so we have tell the browser to wait for the page to finish loading before evaluting contents
-	await page.waitForNavigation();
+	await Promise.all([
+		$input.press('Enter'),
+		page.waitForNavigation({waitUntil: 'networkidle0'}) // other events you can wait for are `load`, `domcontentloaded`, `networkidle2`
+	]);
 
 	const topSearchTitle = await page.evaluate(() => {
 		return document.querySelector('#hnmain table .title a').innerHTML;
