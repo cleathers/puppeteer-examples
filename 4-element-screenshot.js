@@ -8,7 +8,7 @@ const puppeteer = require('puppeteer');
 
   await page.screenshot({path: 'pageshot.png'});
 
-  const el = await page.$$('nav.navigation');
+  const el = await page.$('nav.navigation');
   await el.screenshot({path: 'example.png'});
 
 
